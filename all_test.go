@@ -23,7 +23,8 @@ func TestProxyCommandUnit(t *testing.T) {
 			}
 			conn1, conn2 := net.Pipe()
 			go func() {
-				err := Tunnel(ctx, conn, conn1)
+				ctx, cancel := context.WithCancel(ctx)
+				err := Tunnel(ctx, &connWithCancel{conn, cancel}, conn1)
 				if err != nil {
 					t.Error(err)
 					return
@@ -44,6 +45,16 @@ func TestProxyCommandUnit(t *testing.T) {
 		return
 	}
 	resp.Body.Close()
+}
+
+type connWithCancel struct {
+	net.Conn
+	cancel func()
+}
+
+func (c *connWithCancel) Close() error {
+	c.cancel()
+	return nil
 }
 
 func TestProxyCommand(t *testing.T) {
