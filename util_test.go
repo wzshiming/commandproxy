@@ -113,6 +113,12 @@ b`,
 			},
 			want: []string{"a", "'b'"},
 		},
+		{
+			args: args{
+				cmd: "'a'",
+			},
+			want: []string{"a"},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

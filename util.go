@@ -62,10 +62,11 @@ func SplitCommand(cmd string) ([]string, error) {
 	}
 
 	if buf.Len() != 0 {
+		s := buf.String()
 		if len(ss) == 0 {
-			return []string{cmd}, nil
+			return []string{s}, nil
 		}
-		ss = append(ss, buf.String())
+		ss = append(ss, s)
 	}
 
 	return ss, nil
