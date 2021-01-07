@@ -5,17 +5,15 @@ import (
 	"io"
 )
 
-func Tunnel(ctx context.Context, c1, c2 io.ReadWriteCloser) error {
+func Tunnel(ctx context.Context, c1, c2 io.ReadWriteCloser, buf1, buf2 []byte) error {
 	ctx, cancel := context.WithCancel(ctx)
 	var errs tunnelErr
 	go func() {
-		var buf [32 * 1024]byte
-		_, errs[0] = io.CopyBuffer(c1, c2, buf[:])
+		_, errs[0] = io.CopyBuffer(c1, c2, buf1)
 		cancel()
 	}()
 	go func() {
-		var buf [32 * 1024]byte
-		_, errs[1] = io.CopyBuffer(c2, c1, buf[:])
+		_, errs[1] = io.CopyBuffer(c2, c1, buf2)
 		cancel()
 	}()
 	<-ctx.Done()

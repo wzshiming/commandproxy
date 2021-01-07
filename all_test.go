@@ -22,9 +22,10 @@ func TestProxyCommandUnit(t *testing.T) {
 				return nil, err
 			}
 			conn1, conn2 := net.Pipe()
+			var buf1, buf2 [32 * 1024]byte
 			go func() {
 				ctx, cancel := context.WithCancel(ctx)
-				err := Tunnel(ctx, &connWithCancel{conn, cancel}, conn1)
+				err := Tunnel(ctx, &connWithCancel{conn, cancel}, conn1, buf1[:], buf2[:])
 				if err != nil {
 					t.Error(err)
 					return

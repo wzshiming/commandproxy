@@ -27,8 +27,8 @@ func main() {
 		log.Fatalln(err)
 		return
 	}
-
-	err = commandproxy.Tunnel(context.Background(), commandproxy.Stdio, conn)
+	var buf1, buf2 [32 * 1024]byte
+	err = commandproxy.Tunnel(context.Background(), commandproxy.Stdio, conn, buf1[:], buf2[:])
 	if err != nil {
 		log.Fatalln(err)
 		return

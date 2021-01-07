@@ -8,13 +8,13 @@ import (
 
 var (
 	errQuoteNotClose = fmt.Errorf("quote is not closed")
-	errEmptyCmmand   = fmt.Errorf("cmd is empty")
+	errEmptyCommand  = fmt.Errorf("cmd is empty")
 )
 
 func SplitCommand(cmd string) ([]string, error) {
 	cmd = strings.TrimSpace(cmd)
 	if cmd == "" {
-		return nil, errEmptyCmmand
+		return nil, errEmptyCommand
 	}
 	var ss []string
 
